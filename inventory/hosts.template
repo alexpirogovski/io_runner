@@ -1,0 +1,11 @@
+[data_nodes]
+node1=192.168.200.163
+
+[app_nodes]
+node1=192.168.200.164
+
+[vars]
+ansible_user=
+ansible_password=
+ansible_become_user=
+ansible_become_password=

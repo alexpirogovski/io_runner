@@ -1,0 +1,15 @@
+.idea/*
+*.pyc
+*.xml
+*.iml
+.vagrant
+.venv
+venv/*
+.vscode
+inventory/hosts
+.DS_Store
+sandbox*
+*.swp
+*.log
+*.json
+*.retry

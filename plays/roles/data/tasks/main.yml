@@ -1,0 +1,20 @@
+---
+
+- name: Create io_runner directory
+  file:
+    state: directory
+    path: /home/iguazio/io_runner
+    owner: iguazio
+    group: iguazio
+
+- name: Copy binaries
+  copy:
+    src: "{{ item }}"
+    dest: /home/iguazio/io_runner
+    mode: 0755
+  with_fileglob:
+    - "./*.py"
+
+
+  
+
