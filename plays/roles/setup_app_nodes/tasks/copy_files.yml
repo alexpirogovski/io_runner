@@ -1,0 +1,39 @@
+---
+
+- set_fact:
+    io_runner_dir: /home/iguazio/io_runner
+
+- set_fact:
+    io_runner_results_dir: /home/iguazio/io_runner/results
+
+- name: Wipe io_runner directory
+  file:
+    state: absent
+    path: "{{ io_runner_dir }}"
+
+- name: Create io_runner directory
+  file:
+    state: directory
+    path: "{{ io_runner_dir }}"
+    owner: iguazio
+    group: iguazio
+
+- name: Create io_runner results directory
+  file:
+    state: directory
+    path: "{{ io_runner_results_dir }}"
+    owner: iguazio
+    group: iguazio
+
+- name: Copy files to app nodes
+  copy:
+    src: "{{ item }}"
+    dest: "{{ io_runner_dir }}"
+    mode: 0755
+  with_fileglob:
+    - "*"
+
+- name: Get WebAPI IP address
+  command: "kubectl -n default-tenant -o jsonpath='{.spec.clusterIP}' get svc v3io-webapi"
+  register: webapi_ip
+

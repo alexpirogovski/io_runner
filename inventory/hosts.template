@@ -1,11 +1,15 @@
+[all]
+node1 ansible_host=192.168.200.163
+node2 ansible_host=192.168.200.164
+
 [data_nodes]
-node1=192.168.200.163
+node1
 
 [app_nodes]
-node1=192.168.200.164
+node2
 
-[vars]
-ansible_user=
+[all:vars]
+ansible_user=iguazio
 ansible_password=
-ansible_become_user=
+ansible_become_user=iguazio
 ansible_become_password=

@@ -1,0 +1,5 @@
+---
+
+- name: Save stats before run
+  shell: "stats_reader -f /dev/shm > {{ io_runner_results_dir }}/stats_before_run.txt"
+

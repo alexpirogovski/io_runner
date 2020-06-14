@@ -1,0 +1,10 @@
+---
+
+- import_tasks: get_stats_before.yml
+  when: inventory_hostname in groups['data_nodes']
+
+- import_tasks: run_io_blaster.yml
+  when: inventory_hostname in groups['app_nodes']
+
+- import_tasks: get_stats_after.yml
+  when: inventory_hostname in groups['data_nodes']
