@@ -13,4 +13,4 @@
 - hosts: all
   strategy: linear
   roles:
-    - { role: put_read_scan, tags: ['run_test'] }
+    - { role: put_read_scan_1mb, tags: ['run_test'] }

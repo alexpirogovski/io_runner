@@ -1,0 +1,78 @@
+{
+    "workloads" :
+    [
+        {
+            "name" : "workload_put_items",
+            "allowed_status" :
+            [
+                "200",
+                "204"
+            ],
+            "start_time" : 0,
+            "duration" : 500000000,
+            "end_on_var_value" :
+            {
+                "file_id" :
+                {
+                    "type" : "CONST",
+                    "op" : ">=",
+                    "value" : 1048576
+                }
+            },
+            "workers" : 512,
+            "vars" :
+            {
+                "enum" :
+                {
+                    "workload_sim_each" :
+                    {
+                        "file_id" :
+                        {
+                            "min_value" : 1
+                        }
+                    }
+                },
+                "file" :
+                {
+                    "payload" :
+                    {
+                        "path" : "{{ io_runner_dir }}/payload_1m.bin" 
+                    }
+                }
+            },
+            "type" : "HTTP",
+            "http_config" :
+            {
+                "method" :
+                {
+                    "type" : "CONST",
+                    "value" : "PUT"
+                },
+                "url" :
+                {
+                    "type" : "CONST",
+                    "value" : "http://{{ webapi_ip.stdout }}:8081/bigdata/alexp_attr/"
+                },
+                "headers" :
+                {
+                    "X-v3io-function" :
+                    {
+                        "type" : "CONST",
+                        "value" : "PutItem"
+                    },
+                    "Authorization" :
+                    {
+                        "type" : "CONST",
+                        "value" : "Basic aWd1YXppbzpkYXRhbEBrZSE="
+                    }
+                },
+                "body" :
+                {
+                    "type" : "FORMAT",
+                    "format" : "{'Key':{'name' :{'S': 'file_%d'}}, 'Item':{'bin_1' : {'B': '%s'}}}",
+                    "args" : ["file_id", "payload"]
+                }
+            }
+        }
+    ]
+}

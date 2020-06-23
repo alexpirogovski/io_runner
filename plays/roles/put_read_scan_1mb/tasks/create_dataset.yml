@@ -1,0 +1,18 @@
+---
+
+- name: Copy payload
+  copy:
+    src: payload_1m.bin
+    dest: "{{ io_runner_dir }}/payload_1m.bin"
+
+- name: Create dataset config
+  template:
+    src: put_items_with_attr_100m.json.j2
+    dest: "{{ io_runner_dir }}/put_items_with_attr_100m.json"
+
+- set_fact:
+    io_blaster_config: put_items_with_attr_100m.json
+
+- name: Create dataset (put 100M items)
+  shell: "{{ io_runner_dir }}/io_blaster -c {{ io_runner_dir }}/{{ io_blaster_config }} -o {{ io_runner_results_dir }}/put_items"
+

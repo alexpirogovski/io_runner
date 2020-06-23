@@ -36,6 +36,17 @@
 - include_tasks: get_stats.yml
   when: inventory_hostname in groups['data_nodes']
 
+- name: Collect results
+  shell: "stats_reader.py -f {{ item }}.json >> combined_results.txt"
+  args:
+    chdir: /home/iguazio/io_runner
+    executable: /bin/bash
 
+- name: Cat results file
+  command: cat /home/iguazio/io_runner/combined_results.txt
+  register: results
 
+- name: Print results
+  debug:
+    msg: "{{ results.stdout_lines }}"
 

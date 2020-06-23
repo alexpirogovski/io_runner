@@ -1,0 +1,5 @@
+---
+
+- name: Save stats
+  shell: "stats_reader -o json -f /dev/shm > {{ io_runner_results_dir }}/{{ stage }}.json"
+
