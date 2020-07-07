@@ -12,6 +12,12 @@
 - include_tasks: warm_items.yml
   when: inventory_hostname in groups['app_nodes']
 
+- include_tasks: warm_items.yml
+  when: inventory_hostname in groups['app_nodes']
+
+- include_tasks: warm_items.yml
+  when: inventory_hostname in groups['app_nodes']
+
 - set_fact:
     stage: after_warming
 
@@ -36,17 +42,7 @@
 - include_tasks: get_stats.yml
   when: inventory_hostname in groups['data_nodes']
 
-- name: Collect results
-  shell: "stats_reader.py -f {{ item }}.json >> combined_results.txt"
-  args:
-    chdir: /home/iguazio/io_runner
-    executable: /bin/bash
+- include_tasks: collect_results.yml
+  when: inventory_hostname in groups['data_nodes']
 
-- name: Cat results file
-  command: cat /home/iguazio/io_runner/combined_results.txt
-  register: results
-
-- name: Print results
-  debug:
-    msg: "{{ results.stdout_lines }}"
 
