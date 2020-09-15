@@ -1,0 +1,37 @@
+---
+
+- set_fact:
+    stage: before_start
+
+- include_tasks: get_stats.yml
+  when: inventory_hostname in groups['data_nodes']
+
+- include_tasks: create_dataset.yml
+  when: inventory_hostname in groups['app_nodes']
+
+- set_fact:
+    stage: after_creation
+
+- include_tasks: get_stats.yml
+  when: inventory_hostname in groups['data_nodes']
+
+- include_tasks: warm_items.yml
+  when: inventory_hostname in groups['app_nodes']
+
+- set_fact:
+    stage: after_warming
+
+- include_tasks: get_stats.yml
+  when: inventory_hostname in groups['data_nodes']
+
+- include_tasks: scan_container.yml
+  when: inventory_hostname in groups['app_nodes']
+
+- set_fact:
+    stage: after_scan
+
+- include_tasks: get_stats.yml
+  when: inventory_hostname in groups['data_nodes']
+
+- include_tasks: collect_results.yml
+  when: inventory_hostname in groups['data_nodes']

@@ -1,0 +1,17 @@
+---
+
+- hosts: data_nodes
+  strategy: linear
+  roles:
+    - { role: setup_data_nodes, tags: ['data'] }
+
+- hosts: app_nodes
+  strategy: linear
+  roles:
+    - { role: setup_app_nodes, tags: ['app'] }
+
+- hosts: all
+  strategy: linear
+  any_errors_fatal: yes
+  roles:
+    - { role: items_with_attr, tags: ['run_test'] }

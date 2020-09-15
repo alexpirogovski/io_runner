@@ -16,15 +16,15 @@
                 {
                     "type" : "CONST",
                     "op" : ">=",
-                    "value" : 1048576
+                    "value" : 1200000
                 }
             },
-            "workers" : 512,
+            "workers" : 60,
             "vars" :
             {
                 "enum" :
                 {
-                    "workload_sim_each" :
+                    "worker_each" :
                     {
                         "file_id" :
                         {
@@ -32,12 +32,16 @@
                         }
                     }
                 },
-                "file" :
+                "random" :
                 {
-                    "payload" :
-                    {
-                        "path" : "{{ io_runner_dir }}/payload_1m.bin" 
-                    }
+			        "once":
+					{                    
+						"attrs_value" :
+                    	{
+							"type" : "STRING",
+							"length" : 100                         	
+                    	}
+					}
                 }
             },
             "type" : "HTTP",
@@ -50,15 +54,16 @@
                 },
                 "url" :
                 {
-                    "type" : "CONST",
-                    "value" : "http://{{ webapi_ip.stdout }}:8081/bigdata/alexp_attr/"
+                    "type" : "FORMAT",
+                    "format" : "http://{{ webapi_ip.stdout }}:8081/bigdata/alexp_attr/file_%d",
+					"args" : ["file_id"]
                 },
                 "headers" :
                 {
                     "X-v3io-function" :
                     {
                         "type" : "CONST",
-                        "value" : "PutItem"
+                        "value" : "UpdateItem"
                     },
                     "Authorization" :
                     {
@@ -69,8 +74,8 @@
                 "body" :
                 {
                     "type" : "FORMAT",
-                    "format" : "{'Key':{'name' :{'S': 'file_%d'}}, 'Item':{'bin_1' : {'B': '%s'}}}",
-                    "args" : ["file_id", "payload"]
+                    "format" : "{'UpdateExpression': 'attr_%d = \"%s\"'}",
+                    "args" : ["io_blaster_worker_id", "attrs_value"]
                 }
             }
         }
