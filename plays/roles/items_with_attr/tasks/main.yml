@@ -33,5 +33,14 @@
 - include_tasks: get_stats.yml
   when: inventory_hostname in groups['data_nodes']
 
+- include_tasks: touch_1200_items.yml
+  when: inventory_hostname in groups['app_nodes']
+
+- set_fact:
+    stage: after_touch
+
+- include_tasks: get_stats.yml
+  when: inventory_hostname in groups['data_nodes']
+
 - include_tasks: collect_results.yml
   when: inventory_hostname in groups['data_nodes']

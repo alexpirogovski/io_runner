@@ -10,6 +10,7 @@
     - after_creation
     - after_warming
     - after_scan
+    - after_touch
 
 - name: Cat results file
   command: cat /home/iguazio/io_runner/combined_results.txt
