@@ -1,0 +1,83 @@
+{
+    "workloads" :
+    [
+        {
+            "name" : "workload_put_items",
+            "allowed_status" :
+            [
+                "200",
+                "204"
+            ],
+            "start_time" : 0,
+            "duration" : 500000000,
+            "end_on_var_value" :
+            {
+                "file_id" :
+                {
+                    "type" : "CONST",
+                    "op" : ">=",
+                    "value" : 1000000
+                }
+            },
+            "workers" : 60,
+            "vars" :
+            {
+                "enum" :
+                {
+                    "worker_each" :
+                    {
+                        "file_id" :
+                        {
+                            "min_value" : 1
+                        }
+                    }
+                },
+                "random" :
+                {
+			        "once":
+					{                    
+						"attrs_value" :
+                    	{
+							"type" : "STRING",
+							"length" : 100                         	
+                    	}
+					}
+                }
+            },
+            "type" : "HTTP",
+            "http_config" :
+            {
+                "method" :
+                {
+                    "type" : "CONST",
+                    "value" : "PUT"
+                },
+                "url" :
+                {
+                    "type" : "FORMAT",
+                    "format" : "http://{{ webapi_ip.stdout }}:8081/bigdata/alexp_attr/file_%d",
+					"args" : ["file_id"]
+                },
+                "headers" :
+                {
+                    "X-v3io-function" :
+                    {
+                        "type" : "CONST",
+                        "value" : "UpdateItem"
+                    },
+                    "Authorization" :
+                    {
+                        "type" : "CONST",
+                        "value" : "Basic aWd1YXppbzpEYXRhbEBrZTE="
+                    }
+                },
+                "body" :
+                {
+                    "type" : "FORMAT",
+                    "format" : "{'UpdateExpression': 'attr_%d = \"%s\"'}",
+                    "args" : ["io_blaster_worker_id", "attrs_value"]
+                }
+            }
+        }
+    ]
+}

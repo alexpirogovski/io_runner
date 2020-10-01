@@ -1,0 +1,18 @@
+---
+
+#- name: Copy payload
+#  copy:
+#    src: payload_1m.bin
+#    dest: "{{ io_runner_dir }}/payload_1m.bin"
+
+- name: Create dataset config
+  template:
+    src: put_items_many_attr.json.j2
+    dest: "{{ io_runner_dir }}/put_items_many_attr.json"
+
+- set_fact:
+    io_blaster_config: put_items_many_attr.json
+
+- name: Put items
+  shell: "{{ io_runner_dir }}/io_blaster -c {{ io_runner_dir }}/{{ io_blaster_config }} -o {{ io_runner_results_dir }}/temp_put_items"
+

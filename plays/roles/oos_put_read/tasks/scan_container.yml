@@ -1,0 +1,12 @@
+---
+
+- name: Create config for scan
+  template:
+    src: stage_3_scan.json.j2
+    dest: "{{ io_runner_dir }}/stage_3_scan.json"
+
+- set_fact:
+    io_blaster_config: stage_3_scan.json
+
+- name: Scan container
+  shell: "{{ io_runner_dir }}/io_blaster -c {{ io_runner_dir }}/{{ io_blaster_config }} -o {{ io_runner_results_dir }}/get_items"
