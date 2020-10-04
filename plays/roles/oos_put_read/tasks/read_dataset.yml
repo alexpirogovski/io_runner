@@ -2,12 +2,11 @@
 
 - name: Create config for reading
   template:
-    src: read_items_many_attr.json.j2
-    dest: "{{ io_runner_dir }}/read_items_many_attr.json"
+    src: get_items.json.j2
+    dest: "{{ io_runner_dir }}/get_items.json"
 
 - set_fact:
-    io_blaster_config: read_items_many_attr.json
+    io_blaster_config: get_items.json
 
 - name: Read items
-  shell: "{{ io_runner_dir }}/io_blaster -c {{ io_runner_dir }}/{{ io_blaster_config }} -o {{ io_runner_results_dir }}/get_items"
-#  with_sequence: count=10
+  shell: "{{ io_runner_dir }}/io_blaster -c {{ io_runner_dir }}/{{ io_blaster_config }} -o {{ io_runner_results_dir }}/get_items.log -s {{ io_runner_results_dir }}/get_items_stats"
