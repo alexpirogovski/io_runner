@@ -1,0 +1,12 @@
+---
+
+- name: Create config for reading
+  template:
+    src: get_obj.json.j2
+    dest: "{{ io_runner_dir }}/get_items.json"
+
+- set_fact:
+    io_blaster_config: get_obj.json
+
+- name: Read items
+  shell: "{{ io_runner_dir }}/io_blaster -c {{ io_runner_dir }}/{{ io_blaster_config }} -o {{ io_runner_results_dir }}/get_obj.log -s {{ io_runner_results_dir }}/get_obj_stats"

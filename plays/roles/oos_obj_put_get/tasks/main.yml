@@ -1,0 +1,14 @@
+---
+
+- set_fact:
+    stage: before_start
+
+- include_tasks: create_dataset.yml
+  when: inventory_hostname in groups['app_nodes']
+
+- set_fact:
+    stage: after_creation
+
+- include_tasks: read_dataset.yml
+  when: inventory_hostname in groups['app_nodes']
+

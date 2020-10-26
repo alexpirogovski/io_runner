@@ -1,0 +1,21 @@
+---
+
+- name: Collect results
+  shell: "./stats_reader.py -f results/{{ item }}.json >> combined_results.txt"
+  args:
+    chdir: /home/iguazio/io_runner
+    executable: /bin/bash
+  with_items:
+    - before_start
+    - after_creation
+    - after_warming
+    - after_scan
+    - after_touch
+
+- name: Cat results file
+  command: cat /home/iguazio/io_runner/combined_results.txt
+  register: results
+
+- name: Print results
+  debug:
+    msg: "{{ results.stdout_lines }}"

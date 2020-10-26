@@ -1,0 +1,65 @@
+{
+	"workloads" :
+	[
+		{
+			"name" : "workload_get_obj",
+			"allowed_status" :
+			[
+				"200", "204"
+			],
+			"start_time" : 0,
+			"duration" : 6000,
+			"end_on_var_value" :
+			{
+				"file_id" :
+				{
+					"type" : "CONST",
+					"op" : ">=",
+					"value" : 1000000
+				}
+			},
+			"workers" : 128,
+			"type" : "HTTP",
+			"vars" :
+			{
+				"enum" :
+				{
+					"workload_sim_each" :
+					{
+						"file_id" :
+						{
+							"min_value" : 0
+						}
+					}
+				}
+			},
+			"http_config" :
+			{
+				"method" :
+				{
+					"type" : "CONST",
+					"value" : "GET"
+				},
+				"url" :
+				{
+					"type" : "FORMAT",
+					"format" : "http://{{ webapi_ip.stdout }}:8081/bigdata/alexp_obj/%d",
+					"args" : ["file_id"]
+				},
+				"headers" :
+				{
+					"Authorization" :
+                    {
+                        "type" : "CONST",
+                        "value" : "Basic aWd1YXppbzpEYXRhbEBrZTE="
+                    }
+				},
+				"body" :
+				{
+					"type" : "CONST",
+					"value" : ""					
+				}
+			}
+		}				
+	]
+}
