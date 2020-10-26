@@ -3,7 +3,7 @@
 - name: Create config for reading
   template:
     src: get_obj.json.j2
-    dest: "{{ io_runner_dir }}/get_items.json"
+    dest: "{{ io_runner_dir }}/get_obj.json"
 
 - set_fact:
     io_blaster_config: get_obj.json
